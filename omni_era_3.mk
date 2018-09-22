@@ -19,8 +19,8 @@ TARGET_SCREEN_HEIGHT := 1280
 TARGET_SCREEN_WIDTH := 720
 
 ## Device identifier. This must come after all inclusions
-PRODUCT_DEVICE := Era_3
-PRODUCT_NAME := Era_3
+PRODUCT_DEVICE := era_3
+PRODUCT_NAME := omni_era_3
 PRODUCT_BRAND := Xolo
 PRODUCT_MODEL := Era 3
 PRODUCT_MANUFACTURER := Xolo
