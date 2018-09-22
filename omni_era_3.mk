@@ -13,7 +13,7 @@ PRODUCT_PACKAGES += \
     charger
 
 PRODUCT_COPY_FILES += \
-    $(DEVICE_TREE)/recovery.fstab:recovery/root/recovery.fstab
+    device/xolo/era_3/recovery.fstab:recovery/root/recovery.fstab
 
 TARGET_SCREEN_HEIGHT := 1280
 TARGET_SCREEN_WIDTH := 720
