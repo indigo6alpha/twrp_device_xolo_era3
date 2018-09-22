@@ -1,76 +1,77 @@
-#
-# Copyright (C) 2018 The TwrpBuilder Open-Source Project
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-# http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
+DEVICE_TREE := device/xolo/era_3
 
-LOCAL_PATH := device/xolo/era_3
-
-TARGET_ARCH := arm
-TARGET_BOARD_PLATFORM := mt6737m
+# Bootloader
 TARGET_NO_BOOTLOADER := true
+TARGET_BOOTLOADER_BOARD_NAME := mt6737
+
+# Platform
+TARGET_BOARD_PLATFORM := mt6737
+
+# Architecture
+TARGET_ARCH := arm
+TARGET_ARCH_VARIANT := armv7-a-neon
 TARGET_CPU_ABI := armeabi-v7a
 TARGET_CPU_ABI2 := armeabi
-TARGET_ARCH_VARIANT := armv7-a-neon
 TARGET_CPU_VARIANT := cortex-a7
-TARGET_CPU_SMP := true
-ARCH_ARM_HAVE_TLS_REGISTER := true
 
 TARGET_BOOTLOADER_BOARD_NAME := era_3
 
 BOARD_KERNEL_IMAGE_NAME := kernel
-TARGET_PREBUILT_KERNEL := $(LOCAL_PATH)/kernel
-BOARD_KERNEL_CMDLINE := bootopt=64S3,32N2,32N2 androidboot.selinux=permissive
+TARGET_PREBUILT_KERNEL := $(DEVICE_TREE)/kernel
+BOARD_KERNEL_CMDLINE := bootopt=64S3,32N2,32N2
 BOARD_KERNEL_BASE := 0x40000000
 BOARD_KERNEL_PAGESIZE := 2048
-BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x04000000 --tags_offset 0x0e000000
+BOARD_MKBOOTIMG_ARGS := --kernel_offset 0x00008000 --ramdisk_offset 0x04000000 --tags_offset 0x0e000000
 
 # fix this up by examining /proc/mtd on a running device
 BOARD_BOOTIMAGE_PARTITION_SIZE := 16777216
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 16777216
-BOARD_SYSTEMIMAGE_PARTITION_SIZE := 3464495104
-BOARD_USERDATAIMAGE_PARTITION_SIZE := 3833069568
 BOARD_FLASH_BLOCK_SIZE := 131072
 
 BOARD_HAS_NO_SELECT_BUTTON := true
 
 # Recovery
 TARGET_USERIMAGES_USE_EXT4 := true
-BOARD_HAS_NO_REAL_SDCARD := true
+BOARD_HAS_LARGE_FILESYSTEM := true
+TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
 BOARD_SUPPRESS_SECURE_ERASE := true
-BOARD_HAS_NO_MISC_PARTITION := true
-BOARD_RECOVERY_SWIPE := true
-BOARD_USES_MMCUTILS := true
-BOARD_SUPPRESS_EMMC_WIPE := true
-TW_INPUT_BLACKLIST := "hbtp_vm"
-TW_INCLUDE_CRYPTO := true
+RECOVERY_GRAPHICS_USE_LINELENGTH := true
 
-# TWRP
-RECOVERY_VARIANT := twrp
-TW_THEME := portrait_hdpi
+# TWRP-Specific
+TW_THEME := portrait_mdpi
 TW_EXCLUDE_SUPERSU := true
-TW_INCLUDE_INJECTTWRP := false
-TW_DEVICE_VERSION := Xolo
-TW_USE_MODEL_HARDWARE_ID_FOR_DEVICE_ID := true
-TW_INCLUDE_FB2PNG := true
-TW_HAS_DOWNLOAD_MODE := false
-INTERNAL_LOCAL_CLANG_EXCEPTION_PROJECTS := external/busybox/
-TW_NO_SCREEN_BLANK := true
-TW_CUSTOM_BATTERY_PATH := "/sys/devices/platform/battery/power_supply/battery"
-RECOVERY_SDCARD_ON_DATA := true
-TW_DEFAULT_EXTERNAL_STORAGE := true
-TW_BRIGHTNESS_PATH := /sys/class/leds/lcd-backlight/brightness
-TW_MAX_BRIGHTNESS := 255
+TW_NO_SCREEN_TIMEOUT := true
+# Asian region languages
+TW_EXTRA_LANGUAGES := true
+TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/mt_usb/musb-hdrc.0.auto/gadget/lun%d/file
 
-PRODUCT_COPY_FILES += $(LOCAL_PATH)/recovery.fstab:recovery/root/etc/recovery.fstab
-PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab.mt6735:recovery/root/etc/fstab.mt6735
+TW_MAX_BRIGHTNESS := 255
+TW_DEFAULT_BRIGHTNESS := 120		
+TW_INCLUDE_FB2PNG := true
+TW_USE_MODEL_HARDWARE_ID_FOR_DEVICE_ID := true
+TW_NO_CPU_TEMP := true
+
+TW_USE_TOOLBOX := true
+RECOVERY_SDCARD_ON_DATA := true
+TW_INTERNAL_STORAGE_PATH := "/emmc"
+TW_INTERNAL_STORAGE_MOUNT_POINT := "emmc"
+TW_EXTERNAL_STORAGE_PATH := "/external_sd"
+TW_EXTERNAL_STORAGE_MOUNT_POINT := "external_sd"
+TW_INCLUDE_CRYPTO := true
+TW_CRYPTO_FS_TYPE := "ext4"
+TARGET_USERIMAGES_USE_EXT4 := true
+
+# MTK Hardware
+BOARD_HAS_MTK_HARDWARE := true
+BOARD_USES_MTK_HARDWARE := true
+MTK_HARDWARE := true
+
+TW_HAVE_SELINUX := true
+TW_DEFAULT_LANGUAGE := en
+TW_HAS_MTP := true
+TW_CRYPTO_MNT_POINT := "/data"
+TW_CRYPTO_FS_OPTIONS := "nosuid,nodev,noatime,discard,noauto_da_alloc,data=ordered"
+
+PRODUCT_COPY_FILES += $(DEVICE_TREE)/twrp.fstab:recovery/root/etc/twrp.fstab
+PRODUCT_COPY_FILES += $(DEVICE_TREE)/recovery.fstab:recovery/root/etc/recovery.fstab
+PRODUCT_COPY_FILES += $(DEVICE_TREE)/fstab.mt6735:recovery/root/etc/fstab.mt6735
